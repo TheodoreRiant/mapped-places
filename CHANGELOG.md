@@ -4,6 +4,11 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.5] — 2026-09-28
+
+### Fixed
+- Packaging: the first WordPress.org deployment (2.1.4) copied the repository's `.git` directory into the directory's trunk and tag, because the deploy action syncs the checkout with `.distignore` alone and that file did not list it. `.distignore` now excludes `/.git`, `/node_modules` and `/vendor`; this release replaces 2.1.4 in the directory. No change to the plugin itself.
+
 ## [2.1.4] — 2026-09-28
 
 First release published on the WordPress.org plugin directory (https://wordpress.org/plugins/mapped-places/, approved on 28/09/2026). No change to the plugin itself.

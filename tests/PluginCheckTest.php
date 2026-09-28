@@ -107,6 +107,10 @@ class PluginCheckTest extends TestCase {
         foreach (array('*.po', '*.mo', '*.json') as $ext) {
             $this->assertStringContainsString("/languages/$ext", $dist, "Fichier de traduction hors build wp.org : $ext");
         }
+        // rsync du déploiement : le dépôt git lui-même et les dossiers non versionnés.
+        foreach (array('/.git', '/node_modules', '/vendor') as $path) {
+            $this->assertStringContainsString($path . "\n", $dist, "Chemin absent de .distignore : $path");
+        }
         $attributes = (string) file_get_contents(self::ROOT . '/.gitattributes');
         $this->assertStringNotContainsString('/languages/', $attributes, 'L\'archive GitHub garde les traductions embarquées.');
         // Tout ce que git archive exclut est aussi exclu du build wp.org.
