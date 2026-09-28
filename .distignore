@@ -5,7 +5,15 @@
 # Same list as the export-ignore entries of .gitattributes, plus the
 # translation files: the directory delivers language packs itself. The
 # GitHub release archive keeps them so an install from GitHub is in French.
+#
+# The deploy action syncs the checkout with rsync: the repository's own
+# .git directory has to be excluded here explicitly (it is never part of a
+# git archive, so .gitattributes never needed it).
 
+/.git
+/.DS_Store
+/node_modules
+/vendor
 /.github
 /.wordpress-org
 /brand
