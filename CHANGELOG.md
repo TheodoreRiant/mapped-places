@@ -4,6 +4,13 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.1.4] — 2026-09-28
+
+First release published on the WordPress.org plugin directory (https://wordpress.org/plugins/mapped-places/, approved on 28/09/2026). No change to the plugin itself.
+
+### Changed
+- Deploy workflows: active (`WPORG_DEPLOY`), can also be run by hand for a tag already pushed (`workflow_dispatch`); the deployed content follows `.distignore`.
+
 ## [2.1.3] — 2026-09-25
 
 ### Fixed

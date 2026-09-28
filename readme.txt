@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.3
+Stable tag: 2.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,9 @@ Yes. The source strings are in English and every string is translatable. Transla
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 2.1.4 =
+* First release on the WordPress.org plugin directory. No functional change.
 
 = 2.1.3 =
 * Fix: a site installed from the GitHub archive was in English; that archive ships the French translation again and loads it when no language pack is installed. The WordPress.org version relies on language packs.
