@@ -48,7 +48,7 @@ msgstr "https://allside.studio"
 #: src/Admin/Duplicate.php:80
 #, php-format
 msgid "Duplicate “%s”"
-msgstr "Dupliquer « %s »"
+msgstr "Dupliquer « %s »"
 
 #. translators: %s: place title
 #: src/Admin/Duplicate.php:81
@@ -61,7 +61,7 @@ msgstr "Dupliquer cet établissement"
 
 #: src/Admin/Duplicate.php:113
 msgid "Copy created as a draft. Edit the address, click “Geocode address”, then publish it to show it on the map."
-msgstr "Copie créée en brouillon. Modifiez l’adresse, cliquez sur « Géocoder l’adresse », puis publiez pour l’afficher sur la carte."
+msgstr "Copie créée en brouillon. Modifiez l’adresse, cliquez sur « Géocoder l’adresse », puis publiez pour l’afficher sur la carte."
 
 #: src/Admin/Duplicate.php:130
 msgid "Duplication failed"
@@ -113,7 +113,7 @@ msgstr "Ville"
 
 #: src/Admin/MetaBoxes.php:116
 msgid "Geocode address"
-msgstr "Géocoder l'adresse"
+msgstr "Géocoder l’adresse"
 
 #: src/Admin/MetaBoxes.php:123
 msgid "Latitude"
@@ -125,7 +125,7 @@ msgstr "Longitude"
 
 #: src/Admin/MetaBoxes.php:133
 msgid "Click on the map to place the marker, or use the \"Geocode\" button to find the coordinates automatically."
-msgstr "Cliquez sur la carte pour positionner le marqueur, ou utilisez le bouton \"Géocoder\" pour trouver automatiquement les coordonnées."
+msgstr "Cliquez sur la carte pour positionner le marqueur, ou utilisez le bouton « Géocoder » pour trouver automatiquement les coordonnées."
 
 #: src/Admin/MetaBoxes.php:150
 msgid "Phone"
@@ -133,7 +133,7 @@ msgstr "Téléphone"
 
 #: src/Admin/MetaBoxes.php:154
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: src/Admin/MetaBoxes.php:160
 msgid "Website"
@@ -141,11 +141,11 @@ msgstr "Site web"
 
 #: src/Admin/MetaBoxes.php:165
 msgid "Opening hours"
-msgstr "Horaires d'ouverture"
+msgstr "Horaires d’ouverture"
 
 #: src/Admin/MetaBoxes.php:180
 msgid "Manager(s)"
-msgstr "Directeur/trice(s) de territoire / d'association"
+msgstr "Directeur/trice(s) de territoire / d’association"
 
 #: src/Admin/MetaBoxes.php:186
 msgid "First Last (separate several names with a comma)"
@@ -174,23 +174,23 @@ msgstr "Réglages carte"
 
 #: src/Admin/SettingsPage.php:245
 msgid "Unrecognised settings: the default values have been restored."
-msgstr "Réglages non reconnus : les valeurs par défaut ont été restaurées."
+msgstr "Réglages non reconnus : les valeurs par défaut ont été restaurées."
 
 #: src/Admin/SettingsPage.php:256
 msgid "Unknown basemap: the “each page decides” setting was kept."
-msgstr "Fond de carte inconnu : le réglage « chaque page décide » a été conservé."
+msgstr "Fond de carte inconnu : le réglage « chaque page décide » a été conservé."
 
 #: src/Admin/SettingsPage.php:278
 msgid "Invalid tile URL: it must start with https:// and contain {z}, {x} and {y}. It was not saved."
-msgstr "URL de tuiles invalide : elle doit commencer par https:// et contenir {z}, {x} et {y}. Elle n'a pas été enregistrée."
+msgstr "URL de tuiles invalide : elle doit commencer par https:// et contenir {z}, {x} et {y}. Elle n’a pas été enregistrée."
 
 #: src/Admin/SettingsPage.php:298
 msgid "The “Custom URL” basemap needs a tile URL: the map will use the keyless Positron basemap in the meantime."
-msgstr "Le fond « URL personnalisée » nécessite une URL de tuiles : la carte utilisera le fond Positron sans clé en attendant."
+msgstr "Le fond « URL personnalisée » nécessite une URL de tuiles : la carte utilisera le fond Positron sans clé en attendant."
 
 #: src/Admin/SettingsPage.php:310
 msgid "This basemap requires an API key: the map will use the keyless Positron basemap until the key is set."
-msgstr "Ce fond de carte exige une clé API : la carte utilisera le fond Positron sans clé tant que la clé n'est pas renseignée."
+msgstr "Ce fond de carte exige une clé API : la carte utilisera le fond Positron sans clé tant que la clé n’est pas renseignée."
 
 #: src/Admin/SettingsPage.php:324
 msgid "Settings saved."
@@ -198,7 +198,7 @@ msgstr "Réglages enregistrés."
 
 #: src/Admin/SettingsPage.php:372
 msgid "Map:"
-msgstr "Carte :"
+msgstr "Carte :"
 
 #: src/Admin/SettingsPage.php:375
 msgid "Open the map settings"
@@ -206,19 +206,19 @@ msgstr "Ouvrir les réglages de la carte"
 
 #: src/Admin/SettingsPage.php:388
 msgid "the selected basemap requires an API key that is not set; the keyless Positron basemap is shown instead."
-msgstr "le fond de carte choisi exige une clé API qui n'est pas renseignée ; le fond Positron sans clé est affiché à la place."
+msgstr "le fond de carte choisi exige une clé API qui n’est pas renseignée ; le fond Positron sans clé est affiché à la place."
 
 #: src/Admin/SettingsPage.php:390
 msgid "the custom tile URL is missing or invalid; the keyless Positron basemap is shown instead."
-msgstr "l'URL de tuiles personnalisée est absente ou invalide ; le fond Positron sans clé est affiché à la place."
+msgstr "l’URL de tuiles personnalisée est absente ou invalide ; le fond Positron sans clé est affiché à la place."
 
 #: src/Admin/SettingsPage.php:392
 msgid "the requested basemap does not exist; the keyless Positron basemap is shown instead."
-msgstr "le fond de carte demandé n'existe pas ; le fond Positron sans clé est affiché à la place."
+msgstr "le fond de carte demandé n’existe pas ; le fond Positron sans clé est affiché à la place."
 
 #: src/Admin/SettingsPage.php:403
 msgid "You do not have the required permissions."
-msgstr "Vous n'avez pas les droits nécessaires."
+msgstr "Vous n’avez pas les droits nécessaires."
 
 #: src/Admin/SettingsPage.php:421
 msgid "Basemap"
@@ -244,25 +244,25 @@ msgstr "Clé API du fournisseur"
 #: src/Admin/SettingsPage.php:463
 #, php-format
 msgid "The key is set by the %s constant in wp-config.php: it takes precedence and cannot be changed here."
-msgstr "La clé est définie par la constante %s dans wp-config.php : elle a la priorité et ne peut pas être modifiée ici."
+msgstr "La clé est définie par la constante %s dans wp-config.php : elle a la priorité et ne peut pas être modifiée ici."
 
 #: src/Admin/SettingsPage.php:470
 msgid "Only needed for basemaps marked “key required”. The IGN and OpenStreetMap basemaps work without a key. Since 2026, CARTO basemaps (Positron, Voyager, Dark Matter) require a key: without it, their tiles are stamped “API KEY REQUIRED”."
-msgstr "Nécessaire uniquement pour les fonds marqués « clé requise ». Les fonds Plan IGN et OpenStreetMap fonctionnent sans clé. Depuis 2026, les fonds CARTO (Positron, Voyager, Dark Matter) exigent une clé : sans elle, leurs tuiles portent la mention « API KEY REQUIRED »."
+msgstr "Nécessaire uniquement pour les fonds marqués « clé requise ». Les fonds Plan IGN et OpenStreetMap fonctionnent sans clé. Depuis 2026, les fonds CARTO (Positron, Voyager, Dark Matter) exigent une clé : sans elle, leurs tuiles portent la mention « API KEY REQUIRED »."
 
 #. translators: %s: nom de la constante PHP
 #: src/Admin/SettingsPage.php:476
 #, php-format
 msgid "To avoid storing the key in the database, you can also define it in wp-config.php: %s"
-msgstr "Pour ne pas stocker la clé en base, on peut aussi la définir dans wp-config.php : %s"
+msgstr "Pour ne pas stocker la clé en base, on peut aussi la définir dans wp-config.php : %s"
 
 #: src/Admin/SettingsPage.php:483
 msgid "Good to know:"
-msgstr "À savoir :"
+msgstr "À savoir :"
 
 #: src/Admin/SettingsPage.php:484
 msgid "a tile key is always visible in the page source, since it is the visitor's browser that sends it to the provider. Restrict it to your site's domain in your provider account."
-msgstr "une clé de tuiles est forcément visible dans le code source des pages, car c'est le navigateur du visiteur qui la transmet au fournisseur. Restreignez-la au domaine de votre site dans votre compte fournisseur."
+msgstr "une clé de tuiles est forcément visible dans le code source des pages, car c’est le navigateur du visiteur qui la transmet au fournisseur. Restreignez-la au domaine de votre site dans votre compte fournisseur."
 
 #: src/Admin/SettingsPage.php:490
 msgid "Custom provider"
@@ -270,7 +270,7 @@ msgstr "Fournisseur personnalisé"
 
 #: src/Admin/SettingsPage.php:492
 msgid "Only fill this in if you chose the “Custom URL” basemap above."
-msgstr "À remplir seulement si vous avez choisi le fond « URL personnalisée » ci-dessus."
+msgstr "À remplir seulement si vous avez choisi le fond « URL personnalisée » ci-dessus."
 
 #: src/Admin/SettingsPage.php:497
 msgid "Tile URL"
@@ -278,7 +278,7 @@ msgstr "URL des tuiles"
 
 #: src/Admin/SettingsPage.php:508
 msgid "Accepted tokens: {z}, {x}, {y} (required), {s} for subdomains, {r} for @2x tiles, and {key}, replaced by the API key above."
-msgstr "Jetons acceptés : {z}, {x}, {y} (obligatoires), {s} pour les sous-domaines, {r} pour la version @2x, et {key} qui sera remplacé par la clé API ci-dessus."
+msgstr "Jetons acceptés : {z}, {x}, {y} (obligatoires), {s} pour les sous-domaines, {r} pour la version @2x, et {key} qui sera remplacé par la clé API ci-dessus."
 
 #: src/Admin/SettingsPage.php:514
 msgid "Attribution"
@@ -310,7 +310,7 @@ msgstr "Fond imposé, réellement affiché"
 
 #: src/Admin/SettingsPage.php:554
 msgid "Default basemap for pages that do not set one"
-msgstr "Fond par défaut des pages qui n'en imposent pas"
+msgstr "Fond par défaut des pages qui n’en imposent pas"
 
 #: src/Domain/PlacePostType.php:57
 #: src/Domain/PlacePostType.php:59
@@ -352,7 +352,7 @@ msgstr "Rechercher un lieu"
 
 #: src/Domain/PlacePostType.php:68
 msgid "Parent place:"
-msgstr "Lieu parent :"
+msgstr "Lieu parent :"
 
 #: src/Domain/PlacePostType.php:69
 msgid "No places found."
@@ -368,11 +368,11 @@ msgstr "Image du lieu"
 
 #: src/Domain/PlacePostType.php:72
 msgid "Set image"
-msgstr "Définir l'image"
+msgstr "Définir l’image"
 
 #: src/Domain/PlacePostType.php:73
 msgid "Remove image"
-msgstr "Supprimer l'image"
+msgstr "Supprimer l’image"
 
 #: src/Domain/PlacePostType.php:74
 msgid "Use as image"
@@ -380,11 +380,11 @@ msgstr "Utiliser comme image"
 
 #: src/Domain/Taxonomies.php:49
 msgid "Place types"
-msgstr "Types d'établissement"
+msgstr "Types d’établissement"
 
 #: src/Domain/Taxonomies.php:50
 msgid "Place type"
-msgstr "Type d'établissement"
+msgstr "Type d’établissement"
 
 #: src/Domain/Taxonomies.php:57
 msgid "Regions"
@@ -426,11 +426,11 @@ msgstr "Toutes les entités"
 
 #: src/Domain/Taxonomies.php:85
 msgid "Edit entity"
-msgstr "Modifier l'entité"
+msgstr "Modifier l’entité"
 
 #: src/Domain/Taxonomies.php:86
 msgid "Update entity"
-msgstr "Mettre à jour l'entité"
+msgstr "Mettre à jour l’entité"
 
 #: src/Domain/Taxonomies.php:87
 msgid "Add an entity"
@@ -462,7 +462,7 @@ msgstr "%s parent"
 #: src/Domain/Taxonomies.php:110
 #, php-format
 msgid "Parent %s:"
-msgstr "%s parent :"
+msgstr "%s parent :"
 
 #. translators: %s: taxonomy name
 #: src/Domain/Taxonomies.php:111
@@ -506,7 +506,7 @@ msgstr "Icône"
 #: src/Domain/Taxonomies.php:180
 #: src/Domain/Taxonomies.php:197
 msgid "Icon shown in the list of places. Without a choice, a preset may suggest one; otherwise, a pin."
-msgstr "Icône affichée dans la liste des lieux. Sans choix, un préréglage peut en proposer une ; à défaut, une épingle."
+msgstr "Icône affichée dans la liste des lieux. Sans choix, un préréglage peut en proposer une ; à défaut, une épingle."
 
 #: src/Domain/Taxonomies.php:214
 msgid "Automatic"
@@ -569,7 +569,7 @@ msgstr "Zoom initial"
 #: src/Elementor/MapWidget.php:210
 #: blocks/map/build/index.js
 msgid "Display options"
-msgstr "Options d'affichage"
+msgstr "Options d’affichage"
 
 #: src/Elementor/MapWidget.php:218
 #: blocks/map/build/index.js
@@ -632,7 +632,7 @@ msgstr "— Utiliser le réglage du site —"
 
 #: src/Elementor/MapWidget.php:325
 msgid "The API key for “key required” basemaps is set in Places → Map settings."
-msgstr "La clé API des fonds « clé requise » se saisit dans Établissements → Réglages carte."
+msgstr "La clé API des fonds « clé requise » se saisit dans Établissements → Réglages carte."
 
 #: src/Elementor/MapWidget.php:343
 msgid "Layout"
@@ -668,7 +668,7 @@ msgstr "Couleur de bordure sidebar"
 
 #: src/Elementor/MapWidget.php:437
 msgid "Sidebar header background"
-msgstr "Fond de l'en-tête sidebar"
+msgstr "Fond de l’en-tête sidebar"
 
 #: src/Elementor/MapWidget.php:455
 msgid "Search bar"
@@ -710,7 +710,7 @@ msgstr "Couleur du picto"
 
 #: src/Elementor/MapWidget.php:536
 msgid "Colour of the search icon (magnifier)."
-msgstr "Couleur de l'icône de recherche (loupe)."
+msgstr "Couleur de l’icône de recherche (loupe)."
 
 #: src/Elementor/MapWidget.php:549
 #: src/Elementor/MapWidget.php:589
@@ -836,7 +836,7 @@ msgstr "Affecte les clusters, les boutons et les liens. Les marqueurs prennent l
 
 #: src/Elementor/MapWidget.php:923
 msgid "Accent colour"
-msgstr "Couleur d'accent"
+msgstr "Couleur d’accent"
 
 #: src/Elementor/MapWidget.php:925
 msgid "Affects links and the phone number"
@@ -884,7 +884,7 @@ msgstr "En-tête des résultats"
 
 #: src/Elementor/MapWidget.php:1057
 msgid "Header background"
-msgstr "Fond de l'en-tête"
+msgstr "Fond de l’en-tête"
 
 #: src/Elementor/MapWidget.php:1069
 msgid "Header typography"
@@ -904,7 +904,7 @@ msgstr "Fond du bouton"
 
 #: src/Elementor/MapWidget.php:1126
 msgid "Icon colour"
-msgstr "Couleur de l'icône"
+msgstr "Couleur de l’icône"
 
 #: src/Elementor/MapWidget.php:1148
 msgid "Button radius"
@@ -923,13 +923,13 @@ msgstr "Importer CSV"
 #: src/Import/Importer.php:93
 #, php-format
 msgid "%d place(s) imported successfully!"
-msgstr "%d établissement(s) importé(s) avec succès !"
+msgstr "%d établissement(s) importé(s) avec succès !"
 
 #. translators: %d: number of skipped lines
 #: src/Import/Importer.php:95
 #, php-format
 msgid "%d malformed line(s) skipped: column count differs from the header."
-msgstr "%d ligne(s) mal formée(s) ignorée(s) : nombre de colonnes différent de l'en-tête."
+msgstr "%d ligne(s) mal formée(s) ignorée(s) : nombre de colonnes différent de l’en-tête."
 
 #: src/Import/Importer.php:107
 msgid "Import from a CSV file"
@@ -937,7 +937,7 @@ msgstr "Import depuis un fichier CSV"
 
 #: src/Import/Importer.php:108
 msgid "The first line of the file names the columns. Recognised columns (in English or French, accents and case ignored):"
-msgstr "La première ligne du fichier nomme les colonnes. Colonnes reconnues (en français ou en anglais, accents et majuscules indifférents) :"
+msgstr "La première ligne du fichier nomme les colonnes. Colonnes reconnues (en français ou en anglais, accents et majuscules indifférents) :"
 
 #: src/Import/Importer.php:110
 msgid "name of the place (required)"
@@ -945,11 +945,11 @@ msgstr "nom du lieu (obligatoire)"
 
 #: src/Import/Importer.php:114
 msgid "without them, the address is geocoded"
-msgstr "sans elles, l'adresse est géocodée"
+msgstr "sans elles, l’adresse est géocodée"
 
 #: src/Import/Importer.php:122
 msgid "CSV file:"
-msgstr "Fichier CSV :"
+msgstr "Fichier CSV :"
 
 #: src/Import/Importer.php:129
 msgid "Skip places that already exist (same name)"
@@ -969,7 +969,7 @@ msgstr "Jeu de données par défaut"
 
 #: src/Import/Importer.php:148
 msgid "Import the preset places (a sample dataset, or the one provided by a preset)."
-msgstr "Importer les établissements pré-configurés (un jeu d'exemple, ou celui fourni par un préréglage)."
+msgstr "Importer les établissements pré-configurés (un jeu d’exemple, ou celui fourni par un préréglage)."
 
 #: src/Import/Importer.php:152
 msgid "Import the preset places"
@@ -987,7 +987,7 @@ msgstr "Erreur lors du téléversement du fichier."
 #: src/Import/Importer.php:253
 #, php-format
 msgid "File too large: %d MB maximum."
-msgstr "Fichier trop volumineux : %d Mo maximum."
+msgstr "Fichier trop volumineux : %d Mo maximum."
 
 #: src/Import/Importer.php:259
 msgid "Only .csv files are accepted."
@@ -995,7 +995,7 @@ msgstr "Seuls les fichiers .csv sont acceptés."
 
 #: src/Import/Importer.php:397
 msgid "Capacity:"
-msgstr "Capacité :"
+msgstr "Capacité :"
 
 #: src/Map/Defaults.php:73
 msgid "Our locations"
@@ -1081,11 +1081,11 @@ msgstr "Tous les types"
 
 #: src/Plugin.php:334
 msgid "Manager: "
-msgstr "Directeur/trice : "
+msgstr "Directeur/trice : "
 
 #: src/Plugin.php:335
 msgid "Managers: "
-msgstr "Directeurs/trices : "
+msgstr "Directeurs/trices : "
 
 #: src/Plugin.php:336
 msgid "Click an entity to show only that one."
@@ -1101,11 +1101,11 @@ msgstr "Impossible de vous géolocaliser"
 
 #: src/Plugin.php:339
 msgid "Geolocation is not available"
-msgstr "La géolocalisation n'est pas disponible"
+msgstr "La géolocalisation n’est pas disponible"
 
 #: src/Plugin.php:340
 msgid "The places could not be loaded. Please reload the page."
-msgstr "Les lieux n'ont pas pu être chargés. Rechargez la page."
+msgstr "Les lieux n’ont pas pu être chargés. Rechargez la page."
 
 #: src/Plugin.php:340
 #: views/map.php:129
@@ -1145,7 +1145,7 @@ msgstr "Photo à venir"
 
 #: src/Plugin.php:349
 msgid "Audience:"
-msgstr "Public :"
+msgstr "Public :"
 
 #. translators: 1: photo position, 2: number of photos
 #: src/Plugin.php:351
@@ -1174,11 +1174,11 @@ msgstr "Photo suivante"
 
 #: src/Plugin.php:392
 msgid "The location map could not be loaded. Coordinates can still be entered by hand."
-msgstr "La carte de localisation n'a pas pu être chargée. Les coordonnées restent saisissables à la main."
+msgstr "La carte de localisation n’a pas pu être chargée. Les coordonnées restent saisissables à la main."
 
 #: src/Plugin.php:393
 msgid "Please enter an address"
-msgstr "Veuillez renseigner une adresse"
+msgstr "Renseignez une adresse"
 
 #: src/Plugin.php:394
 msgid "Searching..."
@@ -1188,7 +1188,7 @@ msgstr "Recherche en cours..."
 #: src/Plugin.php:396
 #, php-format
 msgid "Address found: %s"
-msgstr "Adresse trouvée : %s"
+msgstr "Adresse trouvée : %s"
 
 #: src/Plugin.php:397
 msgid "Address not found"
@@ -1208,11 +1208,11 @@ msgstr "Retirer cette photo"
 
 #: src/Plugin.php:417
 msgid "The WordPress media library could not be loaded on this page. Reload the page; if the problem persists, temporarily deactivate other plugins to find the conflict."
-msgstr "La médiathèque WordPress n'a pas pu être chargée sur cette page. Rechargez la page ; si le problème persiste, désactivez temporairement les autres extensions pour identifier le conflit."
+msgstr "La médiathèque WordPress n’a pas pu être chargée sur cette page. Rechargez la page ; si le problème persiste, désactivez temporairement les autres extensions pour identifier le conflit."
 
 #: src/Plugin.php:418
 msgid "The saved photo list was unreadable and has been reset. Select your photos again before saving."
-msgstr "La liste des photos enregistrée est illisible ; elle a été réinitialisée. Sélectionnez à nouveau vos photos avant d'enregistrer."
+msgstr "La liste des photos enregistrée est illisible ; elle a été réinitialisée. Sélectionnez à nouveau vos photos avant d’enregistrer."
 
 #: src/Rest/PlacesController.php:252
 msgid "Place not found"
@@ -1262,7 +1262,7 @@ msgstr "Couleur du sous-titre"
 
 #: src/Elementor/HeaderStyleControls.php
 msgid "Entity pills"
-msgstr "Pastilles d'entités"
+msgstr "Pastilles d’entités"
 
 #: src/Elementor/HeaderStyleControls.php
 msgid "Pill typography"
@@ -1274,7 +1274,7 @@ msgstr "Arrondi des pastilles"
 
 #: src/Elementor/HeaderStyleControls.php
 msgid "Help sentence"
-msgstr "Phrase d'aide"
+msgstr "Phrase d’aide"
 
 #: src/Elementor/MapWidget.php
 #: blocks/map/build/index.js
@@ -1283,11 +1283,11 @@ msgstr "Ajuster la vue aux lieux"
 
 #: src/Elementor/MapWidget.php
 msgid "Used when \"Fit the view to the places\" is off, or when the map contains no place."
-msgstr "Utilisé quand « Ajuster la vue aux lieux » est désactivé, ou quand la carte ne contient aucun lieu."
+msgstr "Utilisé quand « Ajuster la vue aux lieux » est désactivé, ou quand la carte ne contient aucun lieu."
 
 #: src/Elementor/MapWidget.php
 msgid "On: the map zooms to show every place, and again after each filter. Off: it keeps the centre and zoom above."
-msgstr "Activé : la carte zoome pour montrer tous les lieux, et de nouveau après chaque filtre. Désactivé : elle garde le centre et le zoom ci-dessus."
+msgstr "Activé : la carte zoome pour montrer tous les lieux, et de nouveau après chaque filtre. Désactivé : elle garde le centre et le zoom ci-dessus."
 
 #: src/Elementor/HeaderStyleControls.php
 msgid "Default"
@@ -1303,11 +1303,11 @@ msgstr "Masquer"
 
 #: src/Admin/PlaceEditScreen.php
 msgid "A few lines shown in the popup: mission, audience, what makes this place special."
-msgstr "Quelques lignes affichées dans le popup : mission, public accueilli, ce qui rend ce lieu particulier."
+msgstr "Quelques lignes affichées dans le popup : mission, public accueilli, ce qui rend ce lieu particulier."
 
 #: src/Admin/PlaceEditScreen.php
 msgid "Plain text. Keep it short: it appears in the map popup and in the list."
-msgstr "Texte brut. Restez court : ce texte apparaît dans le popup de la carte et dans la liste."
+msgstr "Texte brut. Restez court : ce texte apparaît dans le popup de la carte et dans la liste."
 
 #: src/Admin/PlaceEditScreen.php
 msgid "Description"
@@ -1341,7 +1341,7 @@ msgid "Add a person"
 msgstr "Ajouter une personne"
 
 msgid "Role and name, in the order shown on the map. Drag a row to reorder."
-msgstr "Rôle et nom, dans l'ordre affiché sur la carte. Glissez une ligne pour réordonner."
+msgstr "Rôle et nom, dans l’ordre affiché sur la carte. Glissez une ligne pour réordonner."
 
 msgid "Drag to reorder"
 msgstr "Glisser pour réordonner"
@@ -1354,14 +1354,14 @@ msgstr "Retirer cette personne"
 
 msgctxt "role separator"
 msgid ": "
-msgstr " : "
+msgstr " : "
 #: blocks/map/build/index.js
 msgid "Site setting"
 msgstr "Réglage du site"
 
 #: blocks/map/build/index.js
 msgid "A CSS length: 600px, 80vh, 40rem…"
-msgstr "Une longueur CSS : 600px, 80vh, 40rem…"
+msgstr "Une longueur CSS : 600px, 80vh, 40rem…"
 
 #: blocks/map/src/block.json
 msgctxt "block title"
@@ -1407,7 +1407,7 @@ msgstr "Libellés et défauts"
 
 #: src/Admin/SettingsPage.php
 msgid "Applies to every map of the site. Leave a field empty to keep the plugin default. A map built with the Elementor widget can still override these values in its own style settings."
-msgstr "S’applique à toutes les cartes du site. Laissez un champ vide pour garder la valeur du plugin. Une carte construite avec le widget Elementor peut toujours remplacer ces valeurs dans ses propres réglages de style."
+msgstr "S’applique à toutes les cartes du site. Laissez un champ vide pour garder la valeur du extension. Une carte construite avec le widget Elementor peut toujours remplacer ces valeurs dans ses propres réglages de style."
 
 #: src/Admin/SettingsPage.php
 msgid "Main colour"
@@ -1497,7 +1497,7 @@ msgstr "La taxonomie %1$s devient %2$s."
 #: src/Migration/Legacy/ImportScreen.php
 #, php-format
 msgid "Types without an icon get one from a catalogue of %d names; unmatched types are listed in the report."
-msgstr "Les types sans icône en reçoivent une d’après un catalogue de %d noms ; les types sans correspondance sont listés dans le rapport."
+msgstr "Les types sans icône en reçoivent une d’après un catalogue de %d noms ; les types sans correspondance sont listés dans le rapport."
 
 #. translators: %s: old Elementor widget names
 #: src/Migration/Legacy/ImportScreen.php
@@ -1529,15 +1529,15 @@ msgstr "L’ancienne extension %s est désactivée à la fin."
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Mapped Places: import the data of your previous map plugin"
-msgstr "Mapped Places : importer les données de votre ancienne extension de carte"
+msgstr "Mapped Places : importer les données de votre ancienne extension de carte"
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "A snapshot of the data is taken first. The import will:"
-msgstr "Un instantané des données est pris d’abord. L’import va :"
+msgstr "Un instantané des données est pris d’abord. L’import va :"
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Role given to the people of the former manager field:"
-msgstr "Rôle donné aux personnes de l’ancien champ « responsable » :"
+msgstr "Rôle donné aux personnes de l’ancien champ « responsable » :"
 
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Run the import"
