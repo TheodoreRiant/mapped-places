@@ -1,14 +1,18 @@
-# Publication sur le répertoire wordpress.org (SVN) à chaque tag de version.
+# Publication sur le répertoire wordpress.org (SVN) à chaque tag de version,
+# ou à la main pour un tag déjà poussé (Actions → Run workflow → le tag).
 #
-# Inactif tant que la variable de dépôt WPORG_DEPLOY ne vaut pas « true » :
-# à activer après l'acceptation du plugin, avec les secrets SVN_USERNAME et
-# SVN_PASSWORD (compte wordpress.org qui a soumis le plugin). Le contenu
-# déployé est celui du ZIP : .gitattributes (export-ignore) en fait la liste.
+# Actif depuis l'acceptation du plugin (28/09/2026) : variable de dépôt
+# WPORG_DEPLOY = true, secrets SVN_USERNAME et SVN_PASSWORD (le « SVN
+# password » du profil wordpress.org du compte qui a soumis le plugin, pas
+# le mot de passe du compte). Le contenu déployé est celui du build
+# wordpress.org : .distignore en fait la liste (sans fichiers de traduction,
+# le répertoire fournit les paquets de langue).
 name: Deploy to WordPress.org
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: read
