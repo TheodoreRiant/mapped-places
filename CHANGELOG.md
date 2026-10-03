@@ -4,6 +4,15 @@ Notable changes to Mapped Places. Format based on [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+## [2.2.0] — 2026-10-02
+
+### Added
+- Shareable deep link per place: `<map page>?place=<slug>` (falls back to `?place=<id>` for a place without a stable slug yet) opens the map with that place already selected — centred, popup open, highlighted and scrolled into view in the sidebar list. Works the same way on the full-page map, the Elementor widget and the Gutenberg block, since all three share the same `MappedPlacesMap` init (`assets/js/src/deep-link.mjs`, wired into `map.mjs` and `map-markers.mjs`). An unknown, unpublished or coordinate-less place never breaks the map: it loads normally and shows a discreet toast instead. Active filters are reset before selecting the requested place, so a default filter never hides it. Selecting another place from the map or the list updates the address bar with `history.replaceState` (no history entry stacked).
+- Map settings, new "Place links" section: a "Page that shows the map" setting, pre-filled by scanning published pages for the `[mapped-places]` shortcode or the Mapped Places Map block. Without a configured or detected page, no place link is shown anywhere: never a broken link (`SettingsPage::get_place_link()`).
+- Place edit screen, new "Shareable link" section: the full URL (read-only field) with a "Copy link" button. A draft shows its future link greyed out with "This link will work once the place is published."; without a configured map page, a message points to the settings page instead.
+- Places list, new "Copy link" row action (`post_row_actions`, same pattern as "Duplicate"), with a "Copied!" visual feedback (`navigator.clipboard`, falling back to `document.execCommand('copy')` on a non-secure/http origin). Shared with the edit screen button by `assets/js/mapped-places-copy-link.js`.
+- REST API: the `places` and `places/{id}` routes now expose each place's `slug` (`src/Rest/PlaceMapper.php`), used by the map to resolve `?place=` against the cache already loaded (no extra request).
+
 ## [2.1.5] — 2026-09-28
 
 ### Fixed

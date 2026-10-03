@@ -76,6 +76,12 @@ class PlaceEditScreen {
                 'icon'   => 'format-gallery',
                 'render' => array($boxes, 'render_gallery_box'),
             ),
+            array(
+                'id'     => 'share',
+                'label'  => __('Shareable link', 'mapped-places'),
+                'icon'   => 'admin-links',
+                'render' => array(__CLASS__, 'render_share_link'),
+            ),
         );
     }
 
@@ -170,5 +176,53 @@ class PlaceEditScreen {
             . '</textarea>'
             . '<p class="description">' . esc_html__('Plain text. Keep it short: it appears in the map popup and in the list.', 'mapped-places') . '</p>'
             . '</div>';
+    }
+
+    /**
+     * Section « Lien partageable » : l'URL qui ouvre la carte avec ce lieu
+     * déjà sélectionné (?place=<slug>), lecture seule + bouton copier
+     * (src/Admin/CopyLink.php et le script mapped-places-copy-link.js
+     * fournissent la même action dans la liste des lieux).
+     *
+     * Sans page de carte configurée ni détectée, aucun lien n'est affiché :
+     * un message explicite renvoie vers la page de réglages plutôt que de
+     * montrer un lien cassé.
+     *
+     * @param \WP_Post $post
+     */
+    public static function render_share_link($post) {
+        $url = SettingsPage::get_place_link($post);
+
+        if ($url === '') {
+            printf(
+                '<div class="mapl-meta-box"><p>%s <a href="%s">%s</a></p></div>',
+                esc_html__('No map page is configured yet.', 'mapped-places'),
+                esc_url(admin_url(Schema::ADMIN_PARENT . '&page=' . SettingsPage::PAGE_SLUG)),
+                esc_html__('Open the map settings', 'mapped-places')
+            );
+            return;
+        }
+
+        $is_draft = $post->post_status !== 'publish';
+        ?>
+        <div class="mapl-meta-box mapl-share-link<?php echo $is_draft ? ' mapl-share-link--draft' : ''; ?>">
+            <p>
+                <input type="text"
+                       class="widefat"
+                       readonly="readonly"
+                       onclick="this.select();"
+                       aria-label="<?php esc_attr_e('Shareable link', 'mapped-places'); ?>"
+                       value="<?php echo esc_url($url); ?>" />
+            </p>
+            <p>
+                <button type="button" class="button mapl-copy-share-link" data-url="<?php echo esc_attr($url); ?>">
+                    <?php esc_html_e('Copy link', 'mapped-places'); ?>
+                </button>
+                <?php if ($is_draft) : ?>
+                    <span class="description"><?php esc_html_e('This link will work once the place is published.', 'mapped-places'); ?></span>
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php
     }
 }

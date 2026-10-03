@@ -5,12 +5,30 @@
 
 use PHPUnit\Framework\TestCase;
 use MappedPlaces\Admin\SettingsPage;
+use MappedPlaces\Domain\Schema;
 use MappedPlaces\Map\TileProviders;
 
 final class SettingsTest extends TestCase {
 
     protected function setUp(): void {
         mapl_test_reset();
+        mapl_test_reset_posts();
+    }
+
+    /**
+     * Créer une page publiée simulée.
+     *
+     * @param string $title
+     * @param string $content
+     * @return \WP_Post
+     */
+    private function add_page($title, $content) {
+        return mapl_test_add_post(array(
+            'post_type'   => 'page',
+            'post_status' => 'publish',
+            'post_title'  => $title,
+            'post_content' => $content,
+        ));
     }
 
     /**
@@ -347,5 +365,108 @@ final class SettingsTest extends TestCase {
 
         $this->assertStringNotContainsString('<table', $source);
         $this->assertFileExists(__DIR__ . '/../views/settings-page.php');
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Lien profond d'un lieu (?place=<slug>), ALL-326                 */
+    /* ---------------------------------------------------------------- */
+
+    public function test_sans_reglage_ni_detection_aucun_lien_n_est_construit() {
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'publish', 'post_name' => 'maison-verte'));
+
+        $this->assertSame(0, SettingsPage::get_map_page_id());
+        $this->assertSame('', SettingsPage::get_map_page_url());
+        $this->assertSame('', SettingsPage::get_place_link($place), 'Jamais de lien cassé sans page de carte.');
+    }
+
+    public function test_la_page_avec_le_shortcode_est_detectee_automatiquement() {
+        $page = $this->add_page('Notre carte', 'Texte avant [mapped-places] texte après');
+
+        $this->assertSame($page->ID, SettingsPage::detect_map_page_id());
+        $this->assertSame($page->ID, SettingsPage::get_map_page_id());
+    }
+
+    public function test_la_page_avec_le_bloc_est_detectee_automatiquement() {
+        $page = $this->add_page('Notre carte', '<!-- wp:mapped-places/map /-->');
+
+        $this->assertSame($page->ID, SettingsPage::detect_map_page_id());
+    }
+
+    public function test_une_page_sans_shortcode_ni_bloc_n_est_pas_detectee() {
+        $this->add_page('À propos', 'Rien ici qui ressemble à une carte.');
+
+        $this->assertSame(0, SettingsPage::detect_map_page_id());
+    }
+
+    public function test_le_reglage_explicite_prime_sur_la_detection() {
+        $this->add_page('Carte détectée', '[mapped-places]');
+        $chosen = $this->add_page('Carte choisie', 'rien ici');
+        $this->store(array('map_page_id' => (string) $chosen->ID));
+
+        $this->assertSame($chosen->ID, SettingsPage::get_map_page_id());
+    }
+
+    public function test_un_reglage_pointant_vers_une_page_depubliee_retombe_sur_la_detection() {
+        $detected = $this->add_page('Carte détectée', '[mapped-places]');
+        $draft    = mapl_test_add_post(array('post_type' => 'page', 'post_status' => 'draft', 'post_title' => 'Brouillon'));
+        $this->store(array('map_page_id' => (string) $draft->ID));
+
+        $this->assertSame($detected->ID, SettingsPage::get_map_page_id());
+    }
+
+    public function test_le_lien_d_un_lieu_publie_utilise_son_slug() {
+        $page  = $this->add_page('Notre carte', '[mapped-places]');
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'publish', 'post_name' => 'maison-verte'));
+
+        $this->assertSame(
+            'https://example.test/?page_id=' . $page->ID . '&place=maison-verte',
+            SettingsPage::get_place_link($place)
+        );
+    }
+
+    public function test_un_lieu_sans_slug_stable_utilise_son_identifiant() {
+        // Brouillon jamais enregistré : WordPress ne lui a pas encore donné
+        // de slug stable. Le lien reste constructible, avec l'identifiant.
+        $page  = $this->add_page('Notre carte', '[mapped-places]');
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'draft'));
+
+        $this->assertSame(
+            'https://example.test/?page_id=' . $page->ID . '&place=' . $place->ID,
+            SettingsPage::get_place_link($place)
+        );
+    }
+
+    public function test_map_page_choices_liste_les_pages_publiees_seulement() {
+        $page = $this->add_page('Accueil', 'contenu');
+        mapl_test_add_post(array('post_type' => 'page', 'post_status' => 'draft', 'post_title' => 'Brouillon'));
+
+        $choices = SettingsPage::map_page_choices();
+
+        $this->assertArrayHasKey($page->ID, $choices);
+        $this->assertSame('Accueil', $choices[$page->ID]);
+        $this->assertCount(1, $choices);
+    }
+
+    public function test_un_identifiant_de_page_invalide_est_rejete_a_la_sauvegarde() {
+        $clean = $this->sanitize(array('map_page_id' => '999999'));
+
+        $this->assertSame('', $clean['map_page_id']);
+        $this->assertContains('mapped_places_bad_map_page', mapl_test_error_codes());
+    }
+
+    public function test_un_identifiant_de_page_valide_est_conserve() {
+        $page  = $this->add_page('Notre carte', '[mapped-places]');
+        $clean = $this->sanitize(array('map_page_id' => (string) $page->ID));
+
+        $this->assertSame((string) $page->ID, $clean['map_page_id']);
+        $this->assertNotContains('mapped_places_bad_map_page', mapl_test_error_codes());
+    }
+
+    public function test_un_avertissement_de_page_invalide_n_empeche_pas_la_confirmation() {
+        $this->sanitize(array('map_page_id' => '999999'));
+
+        $codes = mapl_test_error_codes();
+        $this->assertContains('mapped_places_bad_map_page', $codes);
+        $this->assertContains('mapped_places_saved', $codes);
     }
 }

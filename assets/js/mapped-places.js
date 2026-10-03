@@ -572,17 +572,8 @@
       var placeType = place.types && place.types[0] ? place.types[0] : "";
       marker.entityColor = resolveEntityColor(place, self.getTypeConfig(placeType).color);
       marker.on("click", function() {
-        self.$container.find(".mapl-place-card").removeClass("active");
-        var $card = self.$container.find('.mapl-place-card[data-id="' + place.id + '"]');
-        $card.addClass("active");
-        if ($card.length) {
-          var $list = self.$container.find(".mapl-place-list");
-          if ($list.length) {
-            $list.animate({
-              scrollTop: $list.scrollTop() + $card.position().top - 60
-            }, 300);
-          }
-        }
+        self.selectPlaceCard(place.id);
+        self.syncUrlToPlace(place);
       });
       return marker;
     },
@@ -808,6 +799,70 @@
       }
     }
   };
+
+  // assets/js/src/deep-link.mjs
+  var MAX_LENGTH = 200;
+  var SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/i;
+  function isValidPlaceParam(value) {
+    if (typeof value !== "string") return false;
+    var trimmed = value.trim();
+    if (!trimmed || trimmed.length > MAX_LENGTH) return false;
+    return SLUG_PATTERN.test(trimmed);
+  }
+  function parsePlaceParam(search) {
+    var params;
+    try {
+      params = new URLSearchParams(search || "");
+    } catch (e) {
+      return null;
+    }
+    var value = params.get("place");
+    if (!value) return null;
+    var trimmed = value.trim();
+    return isValidPlaceParam(trimmed) ? trimmed : null;
+  }
+  function hasCoords(place) {
+    return !!place && !!place.lat && !!place.lng;
+  }
+  function findPlaceByParam(places, param) {
+    if (!param || !Array.isArray(places)) return null;
+    var lower = param.toLowerCase();
+    var bySlug = places.filter(function(place) {
+      return hasCoords(place) && typeof place.slug === "string" && place.slug !== "" && place.slug.toLowerCase() === lower;
+    })[0];
+    if (bySlug) return bySlug;
+    if (/^\d+$/.test(param)) {
+      var id = parseInt(param, 10);
+      return places.filter(function(place) {
+        return hasCoords(place) && place.id === id;
+      })[0] || null;
+    }
+    return null;
+  }
+  function findPlaceById(places, id) {
+    if (!Array.isArray(places)) return null;
+    return places.filter(function(place) {
+      return place && place.id === id;
+    })[0] || null;
+  }
+  function placeLinkValue(place) {
+    if (!place) return "";
+    return place.slug && String(place.slug).trim() !== "" ? String(place.slug) : String(place.id);
+  }
+  function withPlaceParam(href, value) {
+    var url;
+    try {
+      url = new URL(href);
+    } catch (e) {
+      return href;
+    }
+    if (value) {
+      url.searchParams.set("place", value);
+    } else {
+      url.searchParams.delete("place");
+    }
+    return url.toString();
+  }
 
   // assets/js/src/map.mjs
   var $3 = window.jQuery;
@@ -1162,6 +1217,7 @@
           self.buildEntityPills();
           self.renderAll();
           self.showLoading(false);
+          self.applyDeepLinkSelection();
         },
         error: function(xhr, status) {
           if (self._destroyed || status === "abort") return;
@@ -1375,14 +1431,80 @@
      * @param {number} id - Etablissement ID
      */
     focusPlace(id) {
-      this.$container.find(".mapl-place-card").removeClass("active");
-      this.$container.find('.mapl-place-card[data-id="' + id + '"]').addClass("active");
+      this.selectPlaceCard(id);
       this.closeDrawer();
+      this.syncUrlToPlace(findPlaceById(this.allPlaces, id));
       var marker = this.markerMap[id];
       if (!marker) return;
       this.markers.zoomToShowLayer(marker, function() {
         marker.openPopup();
       });
+    }
+    /**
+     * Surligne la fiche sélectionnée dans la liste latérale et la fait
+     * défiler dans le champ de vue si besoin. Partagé par le clic sur une
+     * fiche (focusPlace), le clic sur un marqueur (map-markers.mjs) et la
+     * sélection par lien profond (applyDeepLinkSelection).
+     *
+     * @param {number} id - Etablissement ID
+     */
+    selectPlaceCard(id) {
+      this.$container.find(".mapl-place-card").removeClass("active");
+      var $card = this.$container.find('.mapl-place-card[data-id="' + id + '"]');
+      $card.addClass("active");
+      if ($card.length) {
+        var $list = this.$container.find(".mapl-place-list");
+        if ($list.length) {
+          $list.animate({
+            scrollTop: $list.scrollTop() + $card.position().top - 60
+          }, 300);
+        }
+      }
+    }
+    /* ============================================================ */
+    /*  DEEP LINK (?place=<slug-ou-id>)                              */
+    /* ============================================================ */
+    /**
+     * Sélectionne, au premier chargement, la fiche demandée par le
+     * paramètre `place` de l'URL : centre la carte dessus, ouvre sa popup,
+     * surligne sa ligne dans la liste. Les filtres actifs (recherche, type,
+     * entités) sont réinitialisés avant : un filtre par défaut ne doit
+     * jamais masquer la fiche demandée.
+     *
+     * Une fiche absente, dépubliée ou sans coordonnées ne figure pas dans
+     * le cache chargé par loadAllData() : rien ne casse, un message discret
+     * signale juste qu'elle est introuvable.
+     */
+    applyDeepLinkSelection() {
+      if (this._destroyed) return;
+      var param = parsePlaceParam(window.location.search);
+      if (!param) return;
+      var place = findPlaceByParam(this.allPlaces, param);
+      if (!place) {
+        this.showToast(t("placeNotFound"));
+        return;
+      }
+      this.searchTerm = "";
+      this.activeFilter = "";
+      this.activeEntities = {};
+      this.$container.find(".mapl-search-input").val("");
+      this.syncEntityPills();
+      this.renderAll();
+      this.focusPlace(place.id);
+    }
+    /**
+     * Remplace l'URL affichée par celle de la fiche sélectionnée
+     * (history.replaceState : jamais d'entrée d'historique empilée), pour
+     * que l'URL de la barre d'adresse reste toujours correcte et copiable.
+     *
+     * @param {Object|null} place
+     */
+    syncUrlToPlace(place) {
+      if (!place || typeof window.history === "undefined" || !window.history.replaceState) return;
+      var url = withPlaceParam(window.location.href, placeLinkValue(place));
+      if (url !== window.location.href) {
+        window.history.replaceState(window.history.state, "", url);
+      }
     }
     /* ============================================================ */
     /*  GEOLOCATION                                                  */

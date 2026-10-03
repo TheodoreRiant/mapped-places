@@ -11,6 +11,7 @@ class WP_Post {
     public $post_type    = 'post';
     public $post_status  = 'publish';
     public $post_title   = '';
+    public $post_name    = '';
     public $post_content = '';
     public $post_excerpt = '';
     public $post_author  = 0;
@@ -87,6 +88,60 @@ function get_post_type($post = null) {
     return $object && isset($object->post_type) ? $object->post_type : false;
 }
 
+function get_post_status($post = null) {
+    $object = is_object($post) ? $post : get_post($post);
+    return $object && isset($object->post_status) ? $object->post_status : false;
+}
+
+function get_post_field($field, $post) {
+    $object = is_object($post) ? $post : get_post($post);
+    return $object && isset($object->$field) ? $object->$field : '';
+}
+
+function get_the_title($post = null) {
+    $object = is_object($post) ? $post : get_post($post);
+    return $object ? $object->post_title : '';
+}
+
+/**
+ * Pages simulées (post_type = page) filtrées comme get_posts() : seul le
+ * sous-ensemble d'arguments utilisé par SettingsPage::detect_map_page_id()
+ * et ::map_page_choices() est pris en charge.
+ *
+ * @param array $args
+ * @return WP_Post[]|int[]
+ */
+function get_posts(array $args = array()) {
+    $types  = isset($args['post_type']) ? (array) $args['post_type'] : array('post');
+    $status = isset($args['post_status']) ? $args['post_status'] : 'publish';
+    $fields = isset($args['fields']) ? $args['fields'] : 'all';
+
+    $matches = array_values(array_filter($GLOBALS['mapl_test_posts'], static function ($post) use ($types, $status) {
+        return in_array($post->post_type, $types, true) && ($status === 'any' || $post->post_status === $status);
+    }));
+
+    if ($fields === 'ids') {
+        return array_map(static function ($post) { return $post->ID; }, $matches);
+    }
+    return $matches;
+}
+
+/** Permalien simulé : suffisant pour vérifier que add_query_arg() s'y applique. */
+function get_permalink($post) {
+    $object = is_object($post) ? $post : get_post($post);
+    return $object ? 'https://example.test/?page_id=' . $object->ID : false;
+}
+
+/** Correspondance littérale « [tag » : suffisant pour les tests (pas d'attributs). */
+function has_shortcode($content, $tag) {
+    return strpos((string) $content, '[' . $tag) !== false;
+}
+
+/** Correspondance littérale sur le commentaire de bloc Gutenberg. */
+function has_block($block_name, $content) {
+    return strpos((string) $content, '<!-- wp:' . $block_name) !== false;
+}
+
 function get_post($post_id) {
     return $GLOBALS['mapl_test_posts'][(int) $post_id] ?? null;
 }
@@ -151,8 +206,18 @@ function wp_create_nonce($action = -1) {
     return 'valid-' . $action;
 }
 
-function add_query_arg(array $args, $url) {
-    return $url . (strpos($url, '?') === false ? '?' : '&') . http_build_query($args);
+/**
+ * Comme WordPress : forme add_query_arg(array $args, $url) ou
+ * add_query_arg($key, $value, $url).
+ */
+function add_query_arg(...$params) {
+    if (count($params) >= 3) {
+        list($key, $value, $url) = $params;
+        $args = array($key => $value);
+    } else {
+        list($args, $url) = $params;
+    }
+    return $url . (strpos($url, '?') === false ? '?' : '&') . http_build_query((array) $args);
 }
 
 function admin_url($path = '') {

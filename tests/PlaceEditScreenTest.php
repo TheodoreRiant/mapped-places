@@ -7,14 +7,20 @@
 
 use MappedPlaces\Admin\MetaBoxes;
 use MappedPlaces\Admin\PlaceEditScreen;
+use MappedPlaces\Admin\SettingsPage;
 use MappedPlaces\Domain\Schema;
 use PHPUnit\Framework\TestCase;
 
 class PlaceEditScreenTest extends TestCase {
 
+    protected function setUp(): void {
+        mapl_test_reset();
+        mapl_test_reset_posts();
+    }
+
     public function test_les_sections_suivent_l_ordre_de_saisie_d_un_lieu(): void {
         $ids = array_column(PlaceEditScreen::sections(), 'id');
-        $this->assertSame(array('location', 'description', 'contact', 'management', 'gallery'), $ids);
+        $this->assertSame(array('location', 'description', 'contact', 'management', 'gallery', 'share'), $ids);
         foreach (PlaceEditScreen::sections() as $section) {
             $this->assertTrue(is_callable($section['render']), 'Section sans rendu : ' . $section['id']);
             $this->assertNotSame('', $section['label']);
@@ -53,5 +59,60 @@ class PlaceEditScreenTest extends TestCase {
         $source = (string) file_get_contents(dirname(__DIR__) . '/src/Domain/PlacePostType.php');
         $this->assertMatchesRegularExpression("/'supports'\\s*=>\\s*apply_filters\\('mapped_places_place_supports',\\s*array\\('title', 'thumbnail'\\)\\)/", $source);
         $this->assertStringNotContainsString("'editor'", preg_replace('#//[^\n]*#', '', $source), 'Le support editor ne doit pas être actif par défaut.');
+    }
+
+    /* ---------------------------------------------------------------- */
+    /*  Section « Lien partageable », ALL-326                            */
+    /* ---------------------------------------------------------------- */
+
+    private function add_map_page() {
+        return mapl_test_add_post(array('post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Carte', 'post_content' => '[mapped-places]'));
+    }
+
+    public function test_sans_page_de_carte_un_message_renvoie_vers_les_reglages(): void {
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'publish', 'post_name' => 'maison-verte'));
+
+        ob_start();
+        PlaceEditScreen::render_share_link($place);
+        $html = ob_get_clean();
+
+        $this->assertStringContainsString('No map page is configured yet.', $html);
+        $this->assertStringContainsString('page=' . SettingsPage::PAGE_SLUG, $html);
+        $this->assertStringNotContainsString('mapl-copy-share-link', $html);
+    }
+
+    public function test_un_lieu_publie_affiche_le_lien_et_le_bouton_copier(): void {
+        $this->add_map_page();
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'publish', 'post_name' => 'maison-verte'));
+
+        ob_start();
+        PlaceEditScreen::render_share_link($place);
+        $html = ob_get_clean();
+
+        $this->assertStringContainsString('place=maison-verte', $html);
+        $this->assertStringContainsString('mapl-copy-share-link', $html);
+        $this->assertStringNotContainsString('mapl-share-link--draft', $html);
+        $this->assertStringNotContainsString('This link will work once the place is published.', $html);
+    }
+
+    public function test_un_brouillon_affiche_le_lien_grise_avec_une_mention(): void {
+        $this->add_map_page();
+        $place = mapl_test_add_post(array('post_type' => Schema::POST_TYPE, 'post_status' => 'draft', 'post_name' => 'maison-verte'));
+
+        ob_start();
+        PlaceEditScreen::render_share_link($place);
+        $html = ob_get_clean();
+
+        $this->assertStringContainsString('mapl-share-link--draft', $html);
+        $this->assertStringContainsString('This link will work once the place is published.', $html);
+    }
+
+    /** Le lien vient d'une donnée de lieu (slug) : il doit rester échappé à la sortie. */
+    public function test_le_lien_affiche_est_echappe(): void {
+        $source = (string) file_get_contents(dirname(__DIR__) . '/src/Admin/PlaceEditScreen.php');
+        $body   = substr($source, strpos($source, 'function render_share_link'));
+
+        $this->assertStringContainsString('esc_url($url)', $body);
+        $this->assertStringContainsString('esc_attr($url)', $body);
     }
 }

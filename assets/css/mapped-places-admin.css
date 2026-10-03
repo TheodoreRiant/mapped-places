@@ -308,3 +308,13 @@
 #mapped_places_people_add .dashicons {
     vertical-align: text-bottom;
 }
+
+/* Lien partageable (écran d'édition) et action « Copier le lien » (liste). */
+.mapl-share-link--draft input {
+    color: #787c82;
+}
+
+.mapl-copy-share-link.is-copied,
+.mapl-copy-link-action.is-copied {
+    color: #00a32a;
+}

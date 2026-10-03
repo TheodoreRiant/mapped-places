@@ -129,6 +129,49 @@ if (!defined('ABSPATH')) {
             </tr>
         </table>
 
+        <h2><?php esc_html_e('Place links', 'mapped-places'); ?></h2>
+        <p class="description">
+            <?php esc_html_e('Each place gets a shareable link that opens the map with it already selected: pin centred, popup open, and highlighted in the list.', 'mapped-places'); ?>
+        </p>
+        <table class="form-table" role="presentation">
+            <tr>
+                <th scope="row">
+                    <label for="mapped_places_map_page_id"><?php esc_html_e('Page that shows the map', 'mapped-places'); ?></label>
+                </th>
+                <td>
+                    <select id="mapped_places_map_page_id"
+                            name="<?php echo esc_attr($view['option_name']); ?>[map_page_id]">
+                        <option value=""<?php selected($view['settings']['map_page_id'], ''); ?>>
+                            <?php esc_html_e('— Select a page —', 'mapped-places'); ?>
+                        </option>
+                        <?php foreach ($view['map_pages'] as $mapped_places_page_id => $mapped_places_page_title) : ?>
+                            <option value="<?php echo esc_attr($mapped_places_page_id); ?>"<?php selected($view['settings']['map_page_id'], (string) $mapped_places_page_id); ?>>
+                                <?php echo esc_html($mapped_places_page_title); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="description">
+                        <?php esc_html_e('Pages are scanned for the [mapped-places] shortcode or the Mapped Places Map block; the first match is pre-selected below. Choose another page if needed.', 'mapped-places'); ?>
+                    </p>
+                    <?php if ((string) $view['settings']['map_page_id'] === '' && $view['detected_page_id']) : ?>
+                        <p class="description">
+                            <?php
+                            printf(
+                                /* translators: %s: detected page title */
+                                esc_html__('Automatically detected: %s', 'mapped-places'),
+                                esc_html(get_the_title($view['detected_page_id']))
+                            );
+                            ?>
+                        </p>
+                    <?php elseif ((string) $view['settings']['map_page_id'] === '') : ?>
+                        <p class="description">
+                            <?php esc_html_e('No map page is configured yet. Each place link stays hidden until one is set, or a page with the shortcode or block is published.', 'mapped-places'); ?>
+                        </p>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        </table>
+
         <?php submit_button(); ?>
     </form>
 

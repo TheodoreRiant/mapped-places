@@ -1555,3 +1555,70 @@ msgstr "Étapes en attente d’exécution."
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Blocks %s become the Mapped Places Map block, with their settings."
 msgstr "Les blocs %s deviennent le bloc Carte Mapped Places, avec leurs réglages."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Shareable link"
+msgstr "Lien partageable"
+
+#: src/Admin/PlaceEditScreen.php
+#: src/Admin/CopyLink.php
+msgid "Copy link"
+msgstr "Copier le lien"
+
+#: src/Admin/PlaceEditScreen.php
+msgid "This link will work once the place is published."
+msgstr "Ce lien fonctionnera une fois l’établissement publié."
+
+#: src/Admin/PlaceEditScreen.php
+msgid "No map page is configured yet."
+msgstr "Aucune page de carte n’est configurée pour le moment."
+
+#. translators: %s: place title
+#: src/Admin/CopyLink.php
+msgid "Copy the link for “%s”"
+msgstr "Copier le lien de « %s »"
+
+#: views/settings-page.php
+msgid "Place links"
+msgstr "Liens des établissements"
+
+#: views/settings-page.php
+msgid "Each place gets a shareable link that opens the map with it already selected: pin centred, popup open, and highlighted in the list."
+msgstr "Chaque établissement dispose d’un lien partageable qui ouvre la carte avec cet établissement déjà sélectionné : marqueur centré, fiche ouverte et ligne surlignée dans la liste."
+
+#: views/settings-page.php
+msgid "Page that shows the map"
+msgstr "Page affichant la carte"
+
+#: views/settings-page.php
+msgid "— Select a page —"
+msgstr "— Choisir une page —"
+
+#: views/settings-page.php
+msgid "Pages are scanned for the [mapped-places] shortcode or the Mapped Places Map block; the first match is pre-selected below. Choose another page if needed."
+msgstr "Les pages sont parcourues à la recherche du shortcode [mapped-places] ou du bloc Carte Mapped Places ; la première trouvée est présélectionnée ci-dessous. Choisissez une autre page si besoin."
+
+#. translators: %s: detected page title
+#: views/settings-page.php
+msgid "Automatically detected: %s"
+msgstr "Détectée automatiquement : %s"
+
+#: views/settings-page.php
+msgid "No map page is configured yet. Each place link stays hidden until one is set, or a page with the shortcode or block is published."
+msgstr "Aucune page de carte n’est configurée pour le moment. Le lien de chaque établissement reste masqué tant qu’aucune page n’est choisie, ou qu’une page avec le shortcode ou le bloc n’est publiée."
+
+#: src/Admin/SettingsPage.php
+msgid "The selected page no longer exists or is not published: map links will be detected automatically instead."
+msgstr "La page choisie n’existe plus ou n’est pas publiée : les liens de carte seront détectés automatiquement à la place."
+
+#: src/Plugin.php
+msgid "Copied!"
+msgstr "Copié !"
+
+#: src/Plugin.php
+msgid "Unable to copy automatically: select the text and copy it manually."
+msgstr "Copie automatique impossible : sélectionnez le texte et copiez-le manuellement."
+
+#: src/Plugin.php
+msgid "The requested place could not be found. It may be unpublished or no longer exists."
+msgstr "Cet établissement est introuvable : il est peut-être dépublié ou supprimé."

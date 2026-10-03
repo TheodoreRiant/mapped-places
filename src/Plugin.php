@@ -6,6 +6,7 @@
 namespace MappedPlaces;
 
 use MappedPlaces\Admin\AppearanceSettings;
+use MappedPlaces\Admin\CopyLink;
 use MappedPlaces\Admin\Duplicate;
 use MappedPlaces\Admin\LabelsSettings;
 use MappedPlaces\Blocks\MapBlock;
@@ -80,6 +81,7 @@ final class Plugin {
         MetaBoxes::get_instance();
         PlaceEditScreen::get_instance();
         Duplicate::get_instance();
+        CopyLink::get_instance();
         PlacesController::get_instance();
         ResponseCache::register();
         // Import depuis un ancien plugin de carte : Geofolio 1.x (ancien nom
@@ -383,6 +385,7 @@ final class Plugin {
                 'geolocError'       => __('Unable to find your location', 'mapped-places'),
                 'geolocUnavailable' => __('Geolocation is not available', 'mapped-places'),
                 'loadError'         => __('The places could not be loaded. Please reload the page.', 'mapped-places'),
+                'placeNotFound'     => __('The requested place could not be found. It may be unpublished or no longer exists.', 'mapped-places'),
                 'enterFullscreen'   => __('Full screen', 'mapped-places'),
                 'exitFullscreen'    => __('Exit full screen', 'mapped-places'),
                 'filters'           => __('Filters', 'mapped-places'),
@@ -462,6 +465,26 @@ final class Plugin {
                 'removeItem'   => __('Remove this photo', 'mapped-places'),
                 'mediaMissing' => __('The WordPress media library could not be loaded on this page. Reload the page; if the problem persists, temporarily deactivate other plugins to find the conflict.', 'mapped-places'),
                 'parseError'   => __('The saved photo list was unreadable and has been reset. Select your photos again before saving.', 'mapped-places'),
+            ),
+        ));
+
+        // Copie du lien partageable : bouton de l'écran d'édition (section
+        // « Lien partageable ») et action rapide « Copier le lien » de la
+        // liste des établissements (src/Admin/CopyLink.php). Script séparé,
+        // sans dépendance : une erreur de la carte ne doit pas désactiver
+        // la copie, et inversement.
+        wp_enqueue_script(
+            'mapped-places-copy-link',
+            MAPPED_PLACES_PLUGIN_URL . 'assets/js/mapped-places-copy-link.js',
+            array(),
+            MAPPED_PLACES_VERSION,
+            true
+        );
+
+        wp_localize_script('mapped-places-copy-link', 'mappedPlacesCopyLink', array(
+            'i18n' => array(
+                'copied'     => __('Copied!', 'mapped-places'),
+                'copyFailed' => __('Unable to copy automatically: select the text and copy it manually.', 'mapped-places'),
             ),
         ));
     }

@@ -18,7 +18,7 @@ Response:
   "count": 12,
   "places": [
     {
-      "id": 42, "title": "…", "excerpt": "…", "description": "…", "url": "…", "thumbnail": "…",
+      "id": 42, "slug": "…", "title": "…", "excerpt": "…", "description": "…", "url": "…", "thumbnail": "…",
       "lat": 45.76, "lng": 4.83, "address": "…", "postal_code": "…", "city": "…",
       "phone": "…", "email": "…", "manager": "…", "website": "…", "opening_hours": "…",
       "people": [{ "role": "Director", "name": "Marie Beton" }],
@@ -32,6 +32,8 @@ Response:
 ```
 
 Places without coordinates are left out. With `lat` and `lng`, places are sorted by `distance` (km).
+
+`slug` is the place's URL slug (`post_name`), used by the map to resolve the `?place=` deep link parameter against the already-loaded list (see `assets/js/src/deep-link.mjs`); it can be empty for a place that has never been saved yet.
 
 ## `GET /wp-json/mapped-places/v1/places/{id}`
 
