@@ -33,6 +33,10 @@ final class PlaceMapper {
         return array_merge(
             array(
                 'id'          => $post_id,
+                // Lien profond (?place=slug) : le slug d'un brouillon est déjà
+                // stable (WordPress le fixe dès le premier enregistrement), mais
+                // la route /places ne liste que les lieux publiés.
+                'slug'        => (string) get_post_field('post_name', $post_id),
                 'title'       => self::plain_text(get_the_title($post_id)),
                 'excerpt'     => self::plain_text(get_the_excerpt($post_id)),
                 'description' => self::plain_text(wp_strip_all_tags(get_post_field('post_content', $post_id))),
@@ -67,6 +71,7 @@ final class PlaceMapper {
         return array_merge(
             array(
                 'id'        => $post_id,
+                'slug'      => (string) $post->post_name,
                 'title'     => self::plain_text(get_the_title($post)),
                 'content'   => apply_filters('the_content', $post->post_content), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- filtre du cœur WordPress.
                 'excerpt'   => self::plain_text(get_the_excerpt($post)),

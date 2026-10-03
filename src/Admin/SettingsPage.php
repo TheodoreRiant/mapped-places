@@ -14,7 +14,9 @@
 
 namespace MappedPlaces\Admin;
 
+use MappedPlaces\Blocks\MapBlock;
 use MappedPlaces\Domain\Schema;
+use MappedPlaces\Map\Shortcode;
 use MappedPlaces\Map\TileProviders;
 use MappedPlaces\Migration\Runner;
 
@@ -78,6 +80,7 @@ final class SettingsPage {
             'api_key'                 => '',
             'custom_tile_url'         => '',
             'custom_tile_attribution' => '',
+            'map_page_id'             => '',   // '' = détection automatique (shortcode ou bloc)
         );
     }
 
@@ -171,6 +174,112 @@ final class SettingsPage {
             self::get_api_key(),
             self::get_custom_tile()
         );
+    }
+
+    /* ================================================================ */
+    /*  LIEN PROFOND D'UN LIEU (?place=slug)                             */
+    /* ================================================================ */
+
+    /**
+     * Page qui affiche la carte : le réglage s'il pointe vers une page
+     * publiée, sinon la première page détectée (shortcode ou bloc).
+     *
+     * @return int 0 si aucune page n'est configurée ni détectée.
+     */
+    public static function get_map_page_id() {
+        $configured = absint(self::get_all()['map_page_id']);
+        if ($configured && get_post_status($configured) === 'publish') {
+            return $configured;
+        }
+        return self::detect_map_page_id();
+    }
+
+    /**
+     * Première page publiée contenant le shortcode [mapped-places] ou le
+     * bloc Mapped Places Map (détection utilisée quand le réglage est vide).
+     *
+     * @return int 0 si aucune page ne correspond.
+     */
+    public static function detect_map_page_id() {
+        if (!function_exists('get_posts')) {
+            return 0;
+        }
+
+        $pages = get_posts(array(
+            'post_type'      => 'page',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1,
+            'fields'         => 'ids',
+            'orderby'        => 'ID',
+            'order'          => 'ASC',
+        ));
+
+        foreach ((array) $pages as $page_id) {
+            $content = get_post_field('post_content', $page_id);
+            if (!is_string($content) || $content === '') {
+                continue;
+            }
+            if (has_shortcode($content, Shortcode::TAG)) {
+                return (int) $page_id;
+            }
+            if (function_exists('has_block') && has_block(MapBlock::NAME, $content)) {
+                return (int) $page_id;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * Pages publiées proposées par le sélecteur de réglage, id => titre.
+     *
+     * @return array<int, string>
+     */
+    public static function map_page_choices() {
+        if (!function_exists('get_posts')) {
+            return array();
+        }
+
+        $pages   = get_posts(array('post_type' => 'page', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC'));
+        $choices = array();
+        foreach ((array) $pages as $page) {
+            $choices[(int) $page->ID] = $page->post_title !== '' ? $page->post_title : ('#' . $page->ID);
+        }
+        return $choices;
+    }
+
+    /**
+     * URL de la page de carte configurée ou détectée.
+     *
+     * @return string '' si aucune page n'est disponible.
+     */
+    public static function get_map_page_url() {
+        $page_id = self::get_map_page_id();
+        if (!$page_id) {
+            return '';
+        }
+        $url = get_permalink($page_id);
+        return is_string($url) ? $url : '';
+    }
+
+    /**
+     * URL partageable d'un lieu : la page de carte, avec ?place=<slug>
+     * (repli sur l'identifiant tant que le lieu n'a pas de slug stable).
+     *
+     * Jamais de lien cassé : '' sans page de carte configurée ni détectée.
+     *
+     * @param \WP_Post|int $post
+     * @return string
+     */
+    public static function get_place_link($post) {
+        $post = is_object($post) ? $post : get_post($post);
+        $base = self::get_map_page_url();
+        if ($base === '' || !$post) {
+            return '';
+        }
+
+        $value = ((string) $post->post_name) !== '' ? $post->post_name : (string) $post->ID;
+        return add_query_arg('place', $value, $base);
     }
 
     /**
@@ -393,6 +502,21 @@ final class SettingsPage {
         $clean['custom_tile_url'] = $url;
 
         $attribution = isset($input['custom_tile_attribution']) ? (string) $input['custom_tile_attribution'] : '';
+        // Page de carte ('' = détection automatique). Un identifiant qui ne
+        // correspond plus à une page publiée retombe sur la détection plutôt
+        // que de garder un réglage orphelin.
+        $page_id = isset($input['map_page_id']) ? absint($input['map_page_id']) : 0;
+        if ($page_id && (get_post_type($page_id) !== 'page' || get_post_status($page_id) !== 'publish')) {
+            $this->flag(
+                $blocking,
+                'mapped_places_bad_map_page',
+                __('The selected page no longer exists or is not published: map links will be detected automatically instead.', 'mapped-places'),
+                'warning'
+            );
+            $page_id = 0;
+        }
+        $clean['map_page_id'] = $page_id ? (string) $page_id : '';
+
         $clean['custom_tile_attribution'] = TileProviders::add_noopener(wp_kses(
             $attribution,
             array(
@@ -561,6 +685,8 @@ final class SettingsPage {
             'forced'       => $forced !== '',
             'resolved_id'  => $resolved['id'],
             'fallback'     => $resolved['fallbackReason'] !== '' ? self::describe_fallback($resolved['fallbackReason']) : '',
+            'map_pages'        => self::map_page_choices(),
+            'detected_page_id' => self::detect_map_page_id(),
             // Migrations de données (étapes fournies par un compagnon) : bouton
             // de relance ici plutôt qu'un avis permanent dans l'admin.
             'migration_rerun_url' => Runner::get_instance()->rerun_url(),

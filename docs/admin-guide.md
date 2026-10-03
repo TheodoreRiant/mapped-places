@@ -40,8 +40,18 @@ On the map, clicking an entity pill **shows only that entity**; further clicks a
 
 - **Provider API key**, for basemaps marked “key required”. It can also be set with `define('MAPPED_PLACES_TILE_API_KEY', '…')` in `wp-config.php`.
 - **Basemap applied to the site**: forces the same basemap on every map, without reopening each Elementor page.
+- **Place links → Page that shows the map**: the page used to build each place's shareable link (see below). Pre-filled automatically from the first published page found with the `[mapped-places]` shortcode or the Mapped Places Map block; choose another page if needed.
 
 Without a valid key, the map falls back to Positron served by OpenFreeMap (no key); it never shows an error instead of the tiles.
+
+## Shareable place links
+
+Each place has a link that opens the map with it already selected: pin centred, popup open, and highlighted in the sidebar list (`<map page>?place=<slug>`, or `?place=<id>` for a place that has no stable slug yet). It works the same way on the full-page map, the Elementor widget and the Gutenberg block.
+
+- **On the place edit screen**: the **Shareable link** section (after Photo gallery) shows the full URL in a read-only field with a **Copy link** button. A draft shows its future link greyed out, with “This link will work once the place is published.”
+- **From the places list**: hover a row and click **Copy link**, next to Duplicate. The button briefly turns into “Copied!”.
+- Without a map page configured or detected (see Map settings above), no link is shown anywhere — never a broken link copied by mistake.
+- A visitor opening a link to a place that has since been unpublished, deleted, or has no coordinates sees the map load normally, with a discreet message that the requested place could not be found.
 
 ## CSV import
 

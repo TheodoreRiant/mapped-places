@@ -109,20 +109,11 @@ const markersMethods = {
         var placeType   = (place.types && place.types[0]) ? place.types[0] : '';
         marker.entityColor = resolveEntityColor(place, self.getTypeConfig(placeType).color);
 
-        // Marker click -> highlight the corresponding sidebar card
+        // Marker click -> highlight the corresponding sidebar card and keep
+        // the address bar URL in sync with the selected place.
         marker.on('click', function() {
-            self.$container.find('.mapl-place-card').removeClass('active');
-            var $card = self.$container.find('.mapl-place-card[data-id="' + place.id + '"]');
-            $card.addClass('active');
-
-            if ($card.length) {
-                var $list = self.$container.find('.mapl-place-list');
-                if ($list.length) {
-                    $list.animate({
-                        scrollTop: $list.scrollTop() + $card.position().top - 60
-                    }, 300);
-                }
-            }
+            self.selectPlaceCard(place.id);
+            self.syncUrlToPlace(place);
         });
         return marker;
     },

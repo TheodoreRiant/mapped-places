@@ -9,6 +9,7 @@ import { SVG_PHONE, SVG_NO_RESULTS, SVG_FULLSCREEN_ENTER, SVG_FULLSCREEN_EXIT, S
 import { autocompleteMethods } from './map-autocomplete.mjs';
 import { carouselMethods } from './map-carousel.mjs';
 import { markersMethods } from './map-markers.mjs';
+import { parsePlaceParam, findPlaceByParam, findPlaceById, placeLinkValue, withPlaceParam } from './deep-link.mjs';
 
 const $ = window.jQuery;
 
@@ -452,6 +453,7 @@ class MappedPlacesMap {
                 self.buildEntityPills();
                 self.renderAll();
                 self.showLoading(false);
+                self.applyDeepLinkSelection();
             },
             error: function(xhr, status) {
                 // Requête annulée par destroy() : rien à signaler.
@@ -760,10 +762,9 @@ class MappedPlacesMap {
      * @param {number} id - Etablissement ID
      */
     focusPlace(id) {
-        this.$container.find('.mapl-place-card').removeClass('active');
-        this.$container.find('.mapl-place-card[data-id="' + id + '"]').addClass('active');
-
+        this.selectPlaceCard(id);
         this.closeDrawer();
+        this.syncUrlToPlace(findPlaceById(this.allPlaces, id));
 
         var marker = this.markerMap[id];
         if (!marker) return;
@@ -773,6 +774,81 @@ class MappedPlacesMap {
         this.markers.zoomToShowLayer(marker, function() {
             marker.openPopup();
         });
+    }
+
+    /**
+     * Surligne la fiche sélectionnée dans la liste latérale et la fait
+     * défiler dans le champ de vue si besoin. Partagé par le clic sur une
+     * fiche (focusPlace), le clic sur un marqueur (map-markers.mjs) et la
+     * sélection par lien profond (applyDeepLinkSelection).
+     *
+     * @param {number} id - Etablissement ID
+     */
+    selectPlaceCard(id) {
+        this.$container.find('.mapl-place-card').removeClass('active');
+        var $card = this.$container.find('.mapl-place-card[data-id="' + id + '"]');
+        $card.addClass('active');
+
+        if ($card.length) {
+            var $list = this.$container.find('.mapl-place-list');
+            if ($list.length) {
+                $list.animate({
+                    scrollTop: $list.scrollTop() + $card.position().top - 60
+                }, 300);
+            }
+        }
+    }
+
+    /* ============================================================ */
+    /*  DEEP LINK (?place=<slug-ou-id>)                              */
+    /* ============================================================ */
+
+    /**
+     * Sélectionne, au premier chargement, la fiche demandée par le
+     * paramètre `place` de l'URL : centre la carte dessus, ouvre sa popup,
+     * surligne sa ligne dans la liste. Les filtres actifs (recherche, type,
+     * entités) sont réinitialisés avant : un filtre par défaut ne doit
+     * jamais masquer la fiche demandée.
+     *
+     * Une fiche absente, dépubliée ou sans coordonnées ne figure pas dans
+     * le cache chargé par loadAllData() : rien ne casse, un message discret
+     * signale juste qu'elle est introuvable.
+     */
+    applyDeepLinkSelection() {
+        if (this._destroyed) return;
+
+        var param = parsePlaceParam(window.location.search);
+        if (!param) return;
+
+        var place = findPlaceByParam(this.allPlaces, param);
+        if (!place) {
+            this.showToast(t('placeNotFound'));
+            return;
+        }
+
+        this.searchTerm      = '';
+        this.activeFilter    = '';
+        this.activeEntities  = {};
+        this.$container.find('.mapl-search-input').val('');
+        this.syncEntityPills();
+        this.renderAll();
+        this.focusPlace(place.id);
+    }
+
+    /**
+     * Remplace l'URL affichée par celle de la fiche sélectionnée
+     * (history.replaceState : jamais d'entrée d'historique empilée), pour
+     * que l'URL de la barre d'adresse reste toujours correcte et copiable.
+     *
+     * @param {Object|null} place
+     */
+    syncUrlToPlace(place) {
+        if (!place || typeof window.history === 'undefined' || !window.history.replaceState) return;
+
+        var url = withPlaceParam(window.location.href, placeLinkValue(place));
+        if (url !== window.location.href) {
+            window.history.replaceState(window.history.state, '', url);
+        }
     }
 
     /* ============================================================ */

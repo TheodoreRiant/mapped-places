@@ -23,6 +23,7 @@ module.exports = [
                 mappedPlacesAdmin: 'readonly',
                 mappedPlacesGallery: 'readonly',
                 mappedPlacesDuplicate: 'readonly',
+                mappedPlacesCopyLink: 'readonly',
             },
         },
     },

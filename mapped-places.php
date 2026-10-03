@@ -3,7 +3,7 @@
  * Plugin Name: Mapped Places by Théodore Riant
  * Plugin URI: https://github.com/TheodoreRiant/mapped-places
  * Description: Interactive map of your places with search, filters, a synchronised list and photo popups. Block, Elementor widget and shortcode.
- * Version: 2.1.5
+ * Version: 2.2.0
  * Requires at least: 6.5
  * Requires PHP: 7.4
  * Author: Théodore Riant
@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MAPPED_PLACES_VERSION', '2.1.5');
+define('MAPPED_PLACES_VERSION', '2.2.0');
 define('MAPPED_PLACES_PLUGIN_FILE', __FILE__);
 define('MAPPED_PLACES_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MAPPED_PLACES_PLUGIN_URL', plugin_dir_url(__FILE__));

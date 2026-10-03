@@ -4,7 +4,7 @@ Tags: map, store locator, locations, directory, leaflet
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.1.5
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,9 @@ Yes. The source strings are in English and every string is translatable. Transla
 8. The Elementor widget and its settings, with the live map in the Elementor editor.
 
 == Changelog ==
+
+= 2.2.0 =
+* Each place now has a shareable link that opens the map with it already selected (`?place=<slug>`): pin centred, popup open, highlighted in the sidebar list. Copy it from the place edit screen or from the "Copy link" row action in the places list. Configure the map page under Map settings → Place links (detected automatically from the `[mapped-places]` shortcode or the Mapped Places Map block when left empty).
 
 = 2.1.5 =
 * Packaging: development files that slipped into the first directory release are excluded. No functional change.

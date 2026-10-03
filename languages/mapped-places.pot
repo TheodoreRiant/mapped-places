@@ -1498,3 +1498,70 @@ msgstr ""
 #: src/Migration/Legacy/ImportScreen.php
 msgid "Blocks %s become the Mapped Places Map block, with their settings."
 msgstr ""
+
+#: src/Admin/PlaceEditScreen.php
+msgid "Shareable link"
+msgstr ""
+
+#: src/Admin/PlaceEditScreen.php
+#: src/Admin/CopyLink.php
+msgid "Copy link"
+msgstr ""
+
+#: src/Admin/PlaceEditScreen.php
+msgid "This link will work once the place is published."
+msgstr ""
+
+#: src/Admin/PlaceEditScreen.php
+msgid "No map page is configured yet."
+msgstr ""
+
+#. translators: %s: place title
+#: src/Admin/CopyLink.php
+msgid "Copy the link for “%s”"
+msgstr ""
+
+#: views/settings-page.php
+msgid "Place links"
+msgstr ""
+
+#: views/settings-page.php
+msgid "Each place gets a shareable link that opens the map with it already selected: pin centred, popup open, and highlighted in the list."
+msgstr ""
+
+#: views/settings-page.php
+msgid "Page that shows the map"
+msgstr ""
+
+#: views/settings-page.php
+msgid "— Select a page —"
+msgstr ""
+
+#: views/settings-page.php
+msgid "Pages are scanned for the [mapped-places] shortcode or the Mapped Places Map block; the first match is pre-selected below. Choose another page if needed."
+msgstr ""
+
+#. translators: %s: detected page title
+#: views/settings-page.php
+msgid "Automatically detected: %s"
+msgstr ""
+
+#: views/settings-page.php
+msgid "No map page is configured yet. Each place link stays hidden until one is set, or a page with the shortcode or block is published."
+msgstr ""
+
+#: src/Admin/SettingsPage.php
+msgid "The selected page no longer exists or is not published: map links will be detected automatically instead."
+msgstr ""
+
+#: src/Plugin.php
+msgid "Copied!"
+msgstr ""
+
+#: src/Plugin.php
+msgid "Unable to copy automatically: select the text and copy it manually."
+msgstr ""
+
+#: src/Plugin.php
+msgid "The requested place could not be found. It may be unpublished or no longer exists."
+msgstr ""
